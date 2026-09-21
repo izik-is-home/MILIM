@@ -2,7 +2,7 @@ import { getActiveVocabularyCount } from '../services/vocabulary-service.js';
 import { toggleElement, createElement, emptyElement, setText } from '../ui.js';
 import { UI_TEXT } from '../data/ui-text.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function init() {
   const container = document.getElementById('level-selection-container');
   const loader = document.getElementById('home-loader');
   const errorEl = document.getElementById('home-error-message');
@@ -47,4 +47,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     errorEl.textContent = UI_TEXT.ERRORS.GENERIC;
     toggleElement('home-error-message', true);
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}

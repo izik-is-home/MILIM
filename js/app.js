@@ -21,5 +21,9 @@ async function initApp() {
   }
 }
 
-// Run init on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', initApp);
+// Run init
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
