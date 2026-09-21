@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>טבלת שיאים | לומדים לפסיכומטרי</title>
+  <meta name="description" content="צפו בטבלת השיאים של משחק הזיכרון לפסיכומטרי.">
+  
+  <link rel="manifest" href="./public/manifest.webmanifest">
+  <meta name="theme-color" content="#315efb">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/leaderboard.css">
+  
+  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/pages/leaderboard-page.js"></script>
+</head>
+<body>
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="page-title">טבלת שיאים</h1>
+      <p class="page-subtitle">הזמנים המהירים ביותר לפי רמה</p>
+    </header>
+
+    <main id="main-content">
+      <section style="margin-bottom: 2rem;">
+        <!-- Tabs -->
+        <div class="tabs-list" role="tablist" aria-label="בחירת רמת שיאים">
+          <button type="button" role="tab" aria-selected="true" aria-controls="panel-8" id="tab-8" class="tab-btn" data-pairs="8">8 צמדים</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="panel-16" id="tab-16" class="tab-btn" data-pairs="16">16 צמדים</button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="panel-24" id="tab-24" class="tab-btn" data-pairs="24">24 צמדים</button>
+        </div>
+
+        <!-- Panels Container -->
+        <div id="leaderboard-container">
+          <!-- Loading State -->
+          <div id="leaderboard-loading" class="text-center" style="padding: 4rem 2rem;">
+            <div class="loader-spinner" role="status" aria-label="טוען שיאים..."></div>
+          </div>
+          
+          <!-- Error State -->
+          <div id="leaderboard-error" class="text-center text-danger hidden" style="padding: 4rem 2rem;" role="alert">
+            אירעה שגיאה בטעינת השיאים. נסו לרענן את הדף.
+          </div>
+
+          <!-- Empty State -->
+          <div id="leaderboard-empty" class="empty-state hidden">
+            עדיין אין שיאים ברמה זו. היו הראשונים לשחק!
+          </div>
+
+          <!-- Results List -->
+          <div id="leaderboard-list" class="leaderboard-list hidden" role="list" aria-label="רשימת שיאים">
+            <!-- Items injected via JS -->
+          </div>
+        </div>
+      </section>
+
+      <div class="text-center" style="margin-top: 3rem;">
+        <a href="./index.html" class="btn btn-secondary">חזרה לדף הבית</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

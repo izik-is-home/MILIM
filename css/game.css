@@ -1,0 +1,163 @@
+/* Game Header */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+}
+
+.game-stats {
+  display: flex;
+  gap: 2rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--color-surface);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  color: var(--color-primary);
+}
+
+/* Game Board */
+.memory-board {
+  display: grid;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+  margin: 0 auto;
+  max-width: 900px;
+  /* Default Mobile layout (4 columns) */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* Tablet & Desktop Adjustments */
+@media (min-width: 768px) {
+  .memory-board[data-pairs="16"] {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .memory-board[data-pairs="24"] {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+
+/* The Card */
+.memory-card {
+  aspect-ratio: 3 / 4;
+  perspective: 1000px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 100%;
+}
+
+.memory-card__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-sm);
+}
+
+/* Card States */
+.memory-card:focus-visible .memory-card__inner {
+  box-shadow: var(--focus-ring);
+}
+
+.memory-card.is-flipped .memory-card__inner,
+.memory-card.is-matched .memory-card__inner {
+  transform: rotateY(180deg);
+}
+
+.memory-card.is-matched {
+  animation: fadeOutMatched 0.8s forwards;
+  animation-delay: 0.5s;
+}
+
+.memory-card.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Card Faces */
+.memory-card__front,
+.memory-card__back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: inherit;
+}
+
+/* Back of card (visible initially) */
+.memory-card__back {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  color: white;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+}
+
+/* Front of card (revealed on flip) */
+.memory-card__front {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  transform: rotateY(180deg);
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.memory-card[data-type="word"] .memory-card__front {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary-hover);
+}
+
+/* Animations */
+@keyframes fadeOutMatched {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 20px var(--color-success); }
+  100% { opacity: 0; transform: scale(0.9); visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memory-card__inner {
+    transition: none;
+  }
+  .memory-card.is-flipped .memory-card__front {
+    z-index: 2;
+  }
+  .memory-card.is-matched {
+    animation: none;
+    visibility: hidden;
+  }
+}

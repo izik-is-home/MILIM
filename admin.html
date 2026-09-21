@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>ניהול מילים | לומדים לפסיכומטרי</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/admin.css">
+  
+  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/pages/admin-page.js"></script>
+</head>
+<body>
+  <!-- Global loading overlay before auth check finishes -->
+  <div id="auth-loading" style="position: fixed; inset: 0; background: var(--color-bg); z-index: 9999; display: flex; align-items: center; justify-content: center;">
+    <div class="loader-spinner"></div>
+  </div>
+
+  <div class="page-container" style="max-width: 1200px; padding-inline: 1.5rem;">
+    <header class="page-header" style="display: flex; justify-content: space-between; align-items: center; text-align: right; margin-block: 2rem;">
+      <div>
+        <h1 class="page-title" style="font-size: 2rem; margin-bottom: 0;">ניהול מאגר מילים</h1>
+        <p class="text-muted">רק מנהלים מורשים יכולים לבצע שינויים</p>
+      </div>
+      <div>
+        <a href="./index.html" class="btn btn-secondary">לאתר</a>
+        <button type="button" class="btn btn-secondary" id="btn-logout" style="margin-right: 0.5rem;">התנתק</button>
+      </div>
+    </header>
+
+    <main id="main-content" class="admin-layout hidden">
+      <!-- Sidebar Form for Add/Edit -->
+      <aside class="admin-sidebar">
+        <section class="card card-glass">
+          <h2 id="form-title" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--color-primary);">הוספת מילה חדשה</h2>
+          
+          <form id="word-form">
+            <input type="hidden" id="word-id">
+            
+            <div class="form-group">
+              <label for="word" class="form-label">מילה <span class="text-danger">*</span></label>
+              <input type="text" id="word" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="meaning" class="form-label">פירוש פשוט <span class="text-danger">*</span></label>
+              <input type="text" id="meaning" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="example" class="form-label">משפט דוגמה (אופציונלי)</label>
+              <textarea id="example" class="form-input" rows="2" style="resize: vertical;"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="category" class="form-label">קטגוריה (אופציונלי)</label>
+              <input type="text" id="category" class="form-input">
+            </div>
+
+            <div class="form-group" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
+              <label for="is_active" class="form-label" style="margin: 0;">סטטוס פעיל</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="is_active" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div id="form-error" class="text-danger hidden" style="margin-top: 1rem; font-size: 0.85rem;"></div>
+            <div id="form-success" class="text-success hidden" style="margin-top: 1rem; font-size: 0.85rem;">נשמר בהצלחה</div>
+
+            <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+              <button type="submit" class="btn btn-primary" id="btn-save-word" style="flex: 1;">שמור</button>
+              <button type="button" class="btn btn-secondary" id="btn-cancel-edit" style="display: none;">בטל</button>
+            </div>
+          </form>
+        </section>
+      </aside>
+
+      <!-- Main Word List -->
+      <section>
+        <div class="admin-toolbar">
+          <div class="search-box">
+            <label for="search-input" class="sr-only">חיפוש מילה או פירוש</label>
+            <input type="search" id="search-input" class="form-input" placeholder="חיפוש מילה או פירוש...">
+          </div>
+          
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <label for="filter-status" class="sr-only">סינון לפי סטטוס</label>
+            <select id="filter-status" class="form-input" style="width: auto;">
+              <option value="all">הכל (פעיל ולא פעיל)</option>
+              <option value="active">פעיל בלבד</option>
+              <option value="inactive">לא פעיל בלבד</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="list-loading" class="text-center" style="padding: 3rem;">
+          <div class="loader-spinner"></div>
+        </div>
+
+        <div id="words-list" class="word-list hidden" role="list">
+          <!-- Items injected via JS -->
+        </div>
+        
+        <div id="words-empty" class="empty-state hidden" style="margin-top: 1rem;">
+          לא נמצאו מילים תואמות.
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

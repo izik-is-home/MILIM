@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>לומדים לפסיכומטרי – אוצר מילים | דף הבית</title>
+  <meta name="description" content="משחק זיכרון אינטראקטיבי ללימוד אוצר מילים לפסיכומטרי בצורה מהנה ויעילה.">
+  
+  <link rel="manifest" href="./public/manifest.webmanifest">
+  <meta name="theme-color" content="#315efb">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/components.css">
+  
+  <!-- App Initialization -->
+  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/pages/home-page.js"></script>
+</head>
+<body>
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="page-title">לומדים לפסיכומטרי<br>אוצר מילים</h1>
+      <p class="page-subtitle">משחק זיכרון לשיפור אוצר המילים לקראת הבחינה</p>
+    </header>
+
+    <main id="main-content">
+      <section class="card card-glass" style="max-width: 600px; margin: 0 auto; text-align: center;">
+        <h2 class="sr-only">בחירת רמה למשחק</h2>
+        <p class="text-muted" style="margin-bottom: 2rem;">
+          מצאו זוגות של מילה ופירוש בזמן הקצר ביותר. 
+          בחרו את מספר הצמדים כדי להתחיל:
+        </p>
+
+        <!-- Dynamic Level Selection Container -->
+        <div id="level-selection-container" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+          <div class="loader-spinner" id="home-loader" role="status" aria-label="טוען נתונים..."></div>
+          <!-- Buttons injected via JS -->
+        </div>
+
+        <div id="home-error-message" class="text-danger hidden" role="alert" aria-live="polite" style="margin-bottom: 1rem;"></div>
+
+        <nav aria-label="ניווט משני" style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 2rem;">
+          <a href="./leaderboard.html" class="btn btn-secondary" id="link-leaderboard">טבלת שיאים</a>
+          <a href="./login.html" class="btn btn-secondary" id="link-admin" style="display: none;">ניהול מילים</a>
+        </nav>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
