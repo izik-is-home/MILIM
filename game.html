@@ -43,10 +43,10 @@
     </header>
 
     <main id="main-content">
-      <!-- Loading State -->
-      <div id="game-loading" class="card card-glass text-center" style="max-width: 400px; margin: 4rem auto;">
+      <!-- Loading State - visible by default, hidden by JS when board is ready -->
+      <div id="game-loading" class="text-center" style="padding: 4rem 2rem;">
         <div class="loader-spinner" role="status" aria-label="מכין את המשחק..."></div>
-        <p>מכין את המשחק...</p>
+        <p style="margin-top: 1rem; color: var(--color-text-muted);">מכין את המשחק...</p>
       </div>
 
       <!-- Error State -->
@@ -57,9 +57,8 @@
       </div>
 
       <!-- Game Board -->
-      <section id="game-board-container" class="hidden">
+      <section id="game-board-container" class="hidden" style="padding: 1.5rem 0;">
         <h2 class="sr-only">לוח הקלפים</h2>
-        <!-- Board is injected here -->
         <div id="memory-board" class="memory-board"></div>
       </section>
     </main>
