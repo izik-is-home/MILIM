@@ -5,6 +5,12 @@ export const GameStates = {
   PLAYING: 'playing',
   CHECKING_PAIR: 'checking_pair',
   FINISHED: 'finished',
+  SCORE_ENTRY: 'score_entry',
+  SCORE_SAVED: 'score_saved',
+  SCORE_SKIPPED: 'score_skipped',
+  LOADING_ERROR: 'loading_error',
+  SAVE_SCORE_ERROR: 'save_score_error',
+  NETWORK_ERROR: 'network_error',
   ERROR: 'error'
 };
 
@@ -12,35 +18,39 @@ export class MemoryState {
   constructor(pairsCount) {
     this.pairsCount = pairsCount;
     this.state = GameStates.IDLE;
-    this.cards = []; // Array of card objects
+    this.cards = [];
     this.matchedPairs = 0;
     this.selectedCard1 = null;
     this.selectedCard2 = null;
+    this.isCheckingPair = false;
     this.durationMs = 0;
   }
 
   canSelectCard(cardId) {
     if (this.state !== GameStates.PLAYING && this.state !== GameStates.READY) return false;
-    
-    const card = this.cards.find(c => c.id === cardId);
+    if (this.isCheckingPair) return false;
+
+    const card = this.cards.find((c) => c.id === cardId);
     if (!card) return false;
-    
     if (card.isFlipped || card.isMatched) return false;
-    
-    // Can only select if we haven't selected 2 cards yet
+
     return !this.selectedCard2;
   }
 
   selectCard(cardId) {
-    const card = this.cards.find(c => c.id === cardId);
+    const card = this.cards.find((c) => c.id === cardId);
     if (!card) return;
 
     card.isFlipped = true;
 
     if (!this.selectedCard1) {
       this.selectedCard1 = card;
-    } else if (!this.selectedCard2) {
+      return;
+    }
+
+    if (!this.selectedCard2) {
       this.selectedCard2 = card;
+      this.isCheckingPair = true;
       this.state = GameStates.CHECKING_PAIR;
     }
   }
@@ -48,13 +58,20 @@ export class MemoryState {
   checkMatch() {
     if (!this.selectedCard1 || !this.selectedCard2) return false;
 
-    const isMatch = (this.selectedCard1.pairId === this.selectedCard2.pairId) && 
-                    (this.selectedCard1.type !== this.selectedCard2.type);
-    
+    const isMatch =
+      this.selectedCard1.pairId === this.selectedCard2.pairId &&
+      this.selectedCard1.type !== this.selectedCard2.type;
+
     return isMatch;
   }
 
   handleMatchResult(isMatch) {
+    if (!this.selectedCard1 || !this.selectedCard2) {
+      this.isCheckingPair = false;
+      this.state = this.matchedPairs === this.pairsCount ? GameStates.FINISHED : GameStates.PLAYING;
+      return;
+    }
+
     if (isMatch) {
       this.selectedCard1.isMatched = true;
       this.selectedCard2.isMatched = true;
@@ -66,7 +83,8 @@ export class MemoryState {
 
     this.selectedCard1 = null;
     this.selectedCard2 = null;
-    
+    this.isCheckingPair = false;
+
     if (this.matchedPairs === this.pairsCount) {
       this.state = GameStates.FINISHED;
     } else {
@@ -76,21 +94,19 @@ export class MemoryState {
 
   initCards(vocabularyItems) {
     const cards = [];
-    
+
     vocabularyItems.forEach((item, index) => {
-      // Word card
       cards.push({
-        id: `card-w-${index}`,
+        id: `card-w-${index}-${item.id}`,
         pairId: item.id,
         type: 'word',
         content: item.word,
         isFlipped: false,
         isMatched: false
       });
-      
-      // Meaning card
+
       cards.push({
-        id: `card-m-${index}`,
+        id: `card-m-${index}-${item.id}`,
         pairId: item.id,
         type: 'meaning',
         content: item.meaning,

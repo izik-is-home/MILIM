@@ -34,18 +34,32 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function handleStateChange(state) {
-  if (state.state === GameStates.LOADING) {
+  if (state.state === GameStates.LOADING || state.state === GameStates.LOADING_ERROR) {
     showElement('game-loading');
     hideElement('game-board-container');
     hideElement('game-error');
-  } else if (state.state === GameStates.READY || state.state === GameStates.PLAYING) {
+  } else if (
+    state.state === GameStates.READY ||
+    state.state === GameStates.PLAYING ||
+    state.state === GameStates.CHECKING_PAIR
+  ) {
     hideElement('game-loading');
     showElement('game-board-container');
+  } else if (state.state === GameStates.ERROR || state.state === GameStates.NETWORK_ERROR) {
+    hideElement('game-loading');
+    hideElement('game-board-container');
+    showElement('game-error');
+    setText('game-error-text', errorMessageForState(state.state));
   } else if (state.state === GameStates.FINISHED) {
     showGameOverModal(state);
   }
 
   setText('match-counter', `${state.matchedPairs} / ${state.pairsCount}`);
+}
+
+function errorMessageForState(stateName) {
+  if (stateName === GameStates.NETWORK_ERROR) return UI_TEXT.ERRORS.NETWORK;
+  return UI_TEXT.ERRORS.LOAD_WORDS_FAILED;
 }
 
 function handleTimerUpdate(durationMs) {
@@ -56,6 +70,7 @@ function handleError(error) {
   hideElement('game-loading');
   hideElement('game-board-container');
   showElement('game-error');
+  setText('game-error-text', error?.message || UI_TEXT.ERRORS.LOAD_WORDS_FAILED);
 }
 
 function showGameOverModal(state) {

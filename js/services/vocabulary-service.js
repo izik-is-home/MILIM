@@ -1,4 +1,5 @@
 import { supabase } from '../supabase-client.js';
+import { shuffle } from '../game/shuffle.js';
 
 export async function getActiveVocabularyCount() {
   const { count, error } = await supabase
@@ -11,15 +12,9 @@ export async function getActiveVocabularyCount() {
 }
 
 export async function getRandomActiveVocabularyItems(count) {
-  // Using PostgREST extension random ordering via RPC or limit if RPC not available.
-  // In MVP, we might pull all active items and shuffle if the list is small, 
-  // but standard practice is to rely on RPC for large datasets.
-  // Since we might not have RPC get_random_vocabulary_items implemented by user yet,
-  // we fetch all active IDs, pick N, then fetch those rows.
-  
   const { data: allActive, error: fetchError } = await supabase
     .from('vocabulary_items')
-    .select('id')
+    .select('id, word, meaning')
     .eq('is_active', true);
 
   if (fetchError) throw fetchError;
@@ -27,16 +22,9 @@ export async function getRandomActiveVocabularyItems(count) {
     throw new Error('Not enough active words');
   }
 
-  // Shuffle and pick N
-  const shuffledIds = [...allActive].sort(() => Math.random() - 0.5).slice(0, count).map(x => x.id);
+  const shuffledItems = shuffle(allActive).slice(0, count);
 
-  const { data: selectedItems, error: itemsError } = await supabase
-    .from('vocabulary_items')
-    .select('id, word, meaning')
-    .in('id', shuffledIds);
-
-  if (itemsError) throw itemsError;
-  return selectedItems;
+  return shuffledItems;
 }
 
 export async function getAllVocabularyItems() {
