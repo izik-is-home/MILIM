@@ -57,12 +57,12 @@ export class MemoryState {
 
   checkMatch() {
     if (!this.selectedCard1 || !this.selectedCard2) return false;
+    if (this.selectedCard1.id === this.selectedCard2.id) return false;
 
-    const isMatch =
-      this.selectedCard1.pairId === this.selectedCard2.pairId &&
-      this.selectedCard1.type !== this.selectedCard2.type;
+    const samePair = this.selectedCard1.pairId === this.selectedCard2.pairId;
+    const differentType = this.selectedCard1.type !== this.selectedCard2.type;
 
-    return isMatch;
+    return samePair && differentType;
   }
 
   handleMatchResult(isMatch) {
@@ -72,13 +72,17 @@ export class MemoryState {
       return;
     }
 
-    if (isMatch) {
+    const matched = Boolean(isMatch);
+
+    if (matched) {
       this.selectedCard1.isMatched = true;
       this.selectedCard2.isMatched = true;
       this.matchedPairs += 1;
     } else {
       this.selectedCard1.isFlipped = false;
       this.selectedCard2.isFlipped = false;
+      this.selectedCard1.isMatched = false;
+      this.selectedCard2.isMatched = false;
     }
 
     this.selectedCard1 = null;

@@ -55,6 +55,9 @@ export class MemoryBoard {
     if (card.isMatched) {
       btn.classList.add('is-matched');
       btn.setAttribute('disabled', 'true');
+    } else {
+      btn.classList.remove('is-matched');
+      btn.removeAttribute('disabled');
     }
   }
 
