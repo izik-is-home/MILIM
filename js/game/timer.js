@@ -16,7 +16,7 @@ export class GameTimer {
 
   stop() {
     if (!this.isRunning) return;
-    this.elapsedMs = performance.now() - this.startedAt;
+    this.elapsedMs = Math.round(performance.now() - this.startedAt);
     this.isRunning = false;
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
@@ -25,9 +25,9 @@ export class GameTimer {
 
   getDuration() {
     if (this.isRunning) {
-      return performance.now() - this.startedAt;
+      return Math.round(performance.now() - this.startedAt);
     }
-    return this.elapsedMs;
+    return Math.round(this.elapsedMs);
   }
 
   _tick() {

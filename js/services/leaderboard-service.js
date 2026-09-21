@@ -15,11 +15,13 @@ export async function getLeaderboard(pairsCount, limit = 20) {
 }
 
 export async function submitScore({ gameType = 'memory', pairsCount, durationMs, displayName }) {
+  const safeDurationMs = Math.max(1, Math.round(Number(durationMs) || 0));
+
   // Using the RPC function defined in the spec
   const { data, error } = await supabase.rpc('submit_game_score', {
     p_game_type: gameType,
     p_pairs_count: pairsCount,
-    p_duration_ms: durationMs,
+    p_duration_ms: safeDurationMs,
     p_display_name: displayName
   });
 
@@ -31,7 +33,7 @@ export async function submitScore({ gameType = 'memory', pairsCount, durationMs,
       .insert([{
         game_type: gameType,
         pairs_count: pairsCount,
-        duration_ms: durationMs,
+        duration_ms: safeDurationMs,
         display_name: displayName
       }])
       .select()
