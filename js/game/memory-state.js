@@ -4,6 +4,7 @@ export const GameStates = {
   READY: 'ready',
   PLAYING: 'playing',
   CHECKING_PAIR: 'checking_pair',
+  REVEALED: 'revealed',
   FINISHED: 'finished',
   SCORE_ENTRY: 'score_entry',
   SCORE_SAVED: 'score_saved',

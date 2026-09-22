@@ -1,4 +1,4 @@
-const CACHE_NAME = 'psycho-vocab-v8';
+const CACHE_NAME = 'psycho-vocab-v9';
 const STATIC_ASSETS = [
   './',
   './index.html',

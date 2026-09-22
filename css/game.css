@@ -20,6 +20,17 @@
   padding: 1rem 1.5rem;
 }
 
+#btn-reveal-cards {
+  order: 3;
+}
+
+@media (max-width: 639px) {
+  #btn-reveal-cards,
+  #btn-exit-game {
+    flex: 1;
+  }
+}
+
 .game-page #main-content {
   min-height: 0;
 }

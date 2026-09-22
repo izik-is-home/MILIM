@@ -41,7 +41,8 @@ function handleStateChange(state) {
   } else if (
     state.state === GameStates.READY ||
     state.state === GameStates.PLAYING ||
-    state.state === GameStates.CHECKING_PAIR
+    state.state === GameStates.CHECKING_PAIR ||
+    state.state === GameStates.REVEALED
   ) {
     hideElement('game-loading');
     showElement('game-board-container');
@@ -55,6 +56,10 @@ function handleStateChange(state) {
   }
 
   setText('match-counter', `${state.matchedPairs} / ${state.pairsCount}`);
+  const revealButton = document.getElementById('btn-reveal-cards');
+  if (revealButton) {
+    revealButton.disabled = state.state === GameStates.REVEALED || state.state === GameStates.FINISHED;
+  }
 }
 
 function errorMessageForState(stateName) {
@@ -85,6 +90,10 @@ function setupEventListeners() {
   btnExit.addEventListener('click', () => {
     engine.exit();
     showElement('modal-exit');
+  });
+
+  document.getElementById('btn-reveal-cards').addEventListener('click', () => {
+    engine.revealRemainingCards();
   });
 
   document.getElementById('btn-resume-game').addEventListener('click', () => {

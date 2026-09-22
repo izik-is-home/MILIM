@@ -13,6 +13,7 @@ export class MemoryEngine {
 
     this.onStateChange = onStateChange;
     this.onError = onError;
+    this.pairTimeout = null;
   }
 
   async start() {
@@ -70,7 +71,8 @@ export class MemoryEngine {
         }
       }
 
-      setTimeout(() => {
+      this.pairTimeout = setTimeout(() => {
+        this.pairTimeout = null;
         const c1 = this.state.selectedCard1;
         const c2 = this.state.selectedCard2;
 
@@ -99,6 +101,30 @@ export class MemoryEngine {
     if (this.onStateChange) {
       this.onStateChange(this.state);
     }
+  }
+
+  revealRemainingCards() {
+    if (this.state.state === GameStates.LOADING || this.state.state === GameStates.FINISHED) return;
+
+    if (this.pairTimeout) {
+      clearTimeout(this.pairTimeout);
+      this.pairTimeout = null;
+    }
+
+    this.timer.stop();
+    this.state.cards.forEach((card) => {
+      if (!card.isMatched) {
+        card.isFlipped = true;
+        this.board.updateCard(card);
+      }
+    });
+
+    this.state.selectedCard1 = null;
+    this.state.selectedCard2 = null;
+    this.state.isCheckingPair = false;
+    this.state.state = GameStates.REVEALED;
+    this.board.lockBoard();
+    this.onStateChange(this.state);
   }
 
   playSuccessSound() {
