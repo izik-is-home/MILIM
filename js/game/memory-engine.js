@@ -56,6 +56,7 @@ export class MemoryEngine {
       const isMatch = this.state.checkMatch();
 
       if (isMatch) {
+        this.playSuccessSound();
         const c1 = this.state.selectedCard1;
         const c2 = this.state.selectedCard2;
 
@@ -97,6 +98,33 @@ export class MemoryEngine {
     this.state.state = newState;
     if (this.onStateChange) {
       this.onStateChange(this.state);
+    }
+  }
+
+  playSuccessSound() {
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return;
+
+      const audioContext = new AudioContextClass();
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      const startTime = audioContext.currentTime;
+
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(660, startTime);
+      oscillator.frequency.setValueAtTime(880, startTime + 0.1);
+      gain.gain.setValueAtTime(0.0001, startTime);
+      gain.gain.exponentialRampToValueAtTime(0.12, startTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.24);
+
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+      oscillator.start(startTime);
+      oscillator.stop(startTime + 0.25);
+      oscillator.addEventListener('ended', () => audioContext.close(), { once: true });
+    } catch (error) {
+      console.warn('Success sound unavailable:', error);
     }
   }
 

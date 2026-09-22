@@ -1,6 +1,6 @@
 import { supabase } from '../supabase-client.js';
 
-export async function getLeaderboard(pairsCount, limit = 20) {
+export async function getLeaderboard(pairsCount, limit = 6) {
   const { data, error } = await supabase
     .from('game_scores')
     .select('display_name, duration_ms, created_at')
