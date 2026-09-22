@@ -1,4 +1,15 @@
 /* Game Header */
+.game-page {
+  overflow: hidden;
+}
+
+.game-page .page-container {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: calc(100dvh - 2rem);
+  min-height: 0;
+}
+
 .game-header {
   display: flex;
   justify-content: space-between;
@@ -7,6 +18,16 @@
   gap: 1rem;
   margin-bottom: 2rem;
   padding: 1rem 1.5rem;
+}
+
+.game-page #main-content {
+  min-height: 0;
+}
+
+.game-page #game-board-container {
+  height: 100%;
+  min-height: 0;
+  padding-block: 0 !important;
 }
 
 .game-stats {
@@ -41,15 +62,26 @@
 .memory-board {
   display: grid;
   gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  height: 100%;
+  min-height: 0;
   margin: 0 auto;
   padding: 1rem;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(0, 1fr));
 }
 
 @media (min-width: 600px) {
   .memory-board[data-pairs='16'],
   .memory-board[data-pairs='24'] {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .memory-board[data-pairs='16'] {
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+  }
+
+  .memory-board[data-pairs='24'] {
+    grid-template-rows: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -58,13 +90,22 @@
   .memory-board[data-pairs='24'] {
     grid-template-columns: repeat(8, minmax(0, 1fr));
   }
+
+  .memory-board[data-pairs='16'] {
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
+
+  .memory-board[data-pairs='24'] {
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+  }
 }
 
 .memory-card {
   position: relative;
   container-type: inline-size;
   width: 100%;
-  height: clamp(100px, 18vw, 170px);
+  height: 100%;
+  min-height: 0;
   cursor: pointer;
   background: transparent;
   border: none;
@@ -108,7 +149,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 12px;
+  padding: clamp(4px, 1.2cqw, 12px);
   border-radius: 18px;
   overflow: hidden;
   transition: opacity 0.2s ease, visibility 0s linear 0.2s;
@@ -135,7 +176,7 @@
   background: linear-gradient(180deg, #0f7ad9 0%, #0b5bbd 100%);
   color: #ffffff;
   border: 3px solid rgba(255, 255, 255, 0.45);
-  font-size: clamp(0.72rem, 10cqw, 2.5rem);
+  font-size: clamp(0.62rem, 10cqw, 2.5rem);
   font-weight: 800;
   line-height: 1.15;
   text-align: center;
