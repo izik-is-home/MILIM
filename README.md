@@ -32,11 +32,21 @@
    - `supabase/migrations/001_initial_schema.sql` (מבנה טבלאות)
    - `supabase/migrations/002_rls_policies.sql` (חוקי הרשאות ואבטחה)
    - `supabase/migrations/003_functions.sql` (פונקציות שמירת שיאים)
+   - `supabase/migrations/004_fix_admin_rls.sql` (תיקון הרשאות מנהל)
+   - `supabase/migrations/005_add_vocabulary_numbers.sql` (מספר ייחודי לכל מילה)
    - `supabase/seed.sql` (מילים לדוגמה - אופציונלי)
 3. ב-Supabase Authentication, ודאו ש-Email login מופעל. תחת "Redirect URLs" יש להוסיף את הכתובת של האתר שלכם ב-GitHub Pages.
 4. כעת צרו דרך ממשק ה-Auth ב-Supabase משתמש חדש עם אימייל וסיסמה שיהיה מנהל המערכת.
 5. העתיקו את ה-UUID של המשתמש שנוצר.
 6. גשו ל-Table Editor, בחרו בטבלת `admin_users` והכניסו שורה חדשה: ב-`user_id` הדביקו את ה-UUID שהעתקתם. כעת למשתמש זה יש הרשאות מנהל!
+
+בממשק ניהול המילים ניתן לייבא קובץ טקסט שבו כל שורה מופרדת באמצעות `|`, והעמודות בכל שורה מופרדות באמצעות `;`:
+
+```text
+מילה;פירוש;משפט דוגמה;קטגוריה;פעיל|מילה נוספת;פירוש נוסף;;;כן
+```
+
+העמודה החמישית היא אופציונלית ומקבלת `true`/`false` או `כן`/`לא`. מספר המילה נוצר אוטומטית בבסיס הנתונים ואין להוסיף אותו לקובץ.
 
 ## פריסה ב-GitHub Pages
 

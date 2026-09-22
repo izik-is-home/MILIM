@@ -26,6 +26,35 @@
   margin-bottom: 2rem;
 }
 
+.words-count {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.import-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+}
+
+.import-panel h2 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.import-panel p {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.import-button {
+  flex-shrink: 0;
+}
+
 @media (min-width: 640px) {
   .admin-toolbar {
     flex-direction: row;
@@ -79,6 +108,12 @@
   color: var(--color-primary);
 }
 
+.word-number {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
 .word-meaning {
   color: var(--color-text);
   font-weight: 500;
@@ -114,6 +149,17 @@
 
   .word-actions .btn {
     flex: 1;
+  }
+}
+
+@media (max-width: 639px) {
+  .import-panel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .import-button {
+    width: 100%;
   }
 }
 

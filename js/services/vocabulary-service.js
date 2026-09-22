@@ -59,3 +59,24 @@ export async function updateVocabularyItem(id, itemData) {
   if (error) throw error;
   return data;
 }
+
+export async function deleteVocabularyItem(id) {
+  const { error } = await supabase
+    .from('vocabulary_items')
+    .delete()
+    .eq('id', id);
+
+  if (error) throw error;
+}
+
+export async function createVocabularyItems(items) {
+  if (!items.length) return [];
+
+  const { data, error } = await supabase
+    .from('vocabulary_items')
+    .insert(items)
+    .select();
+
+  if (error) throw error;
+  return data;
+}

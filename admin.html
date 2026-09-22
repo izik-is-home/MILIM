@@ -24,7 +24,7 @@
   <div class="page-container" style="max-width: 1200px; padding-inline: 1.5rem;">
     <header class="page-header" style="display: flex; justify-content: space-between; align-items: center; text-align: right; margin-block: 2rem;">
       <div>
-        <h1 class="page-title" style="font-size: 2rem; margin-bottom: 0;">ניהול מאגר מילים</h1>
+        <h1 class="page-title" style="font-size: 2rem; margin-bottom: 0;">ניהול מאגר מילים <span id="words-count" class="words-count">(טוען...)</span></h1>
         <p class="text-muted">רק מנהלים מורשים יכולים לבצע שינויים</p>
       </div>
       <div>
@@ -83,6 +83,15 @@
 
       <!-- Main Word List -->
       <section>
+        <section class="import-panel card card-glass">
+          <div>
+            <h2>ייבוא קובץ מילים</h2>
+            <p>פורמט: מילה;פירוש;משפט דוגמה;קטגוריה;פעיל. הפרד שורות בסימן |.</p>
+          </div>
+          <label class="btn btn-secondary import-button" for="words-file">בחר קובץ</label>
+          <input type="file" id="words-file" accept=".txt,text/plain" class="sr-only">
+        </section>
+
         <div class="admin-toolbar">
           <div class="search-box">
             <label for="search-input" class="sr-only">חיפוש מילה או פירוש</label>
@@ -95,6 +104,13 @@
               <option value="all">הכל (פעיל ולא פעיל)</option>
               <option value="active">פעיל בלבד</option>
               <option value="inactive">לא פעיל בלבד</option>
+            </select>
+            <label for="sort-words" class="sr-only">מיון מילים</label>
+            <select id="sort-words" class="form-input" style="width: auto;">
+              <option value="number-desc">חדשות קודם</option>
+              <option value="number-asc">מספר עולה</option>
+              <option value="word-asc">א-ת</option>
+              <option value="word-desc">ת-א</option>
             </select>
           </div>
         </div>
