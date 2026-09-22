@@ -73,7 +73,7 @@ export class MemoryEngine {
         }
 
         this.onStateChange(this.state);
-      }, 4000);
+      }, 1000);
     }
 
     this.onStateChange(this.state);
