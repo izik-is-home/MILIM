@@ -55,6 +55,20 @@ export class MemoryEngine {
 
       const isMatch = this.state.checkMatch();
 
+      if (isMatch) {
+        const c1 = this.state.selectedCard1;
+        const c2 = this.state.selectedCard2;
+
+        if (c1) {
+          c1.isMatched = true;
+          this.board.updateCard(c1);
+        }
+        if (c2) {
+          c2.isMatched = true;
+          this.board.updateCard(c2);
+        }
+      }
+
       setTimeout(() => {
         const c1 = this.state.selectedCard1;
         const c2 = this.state.selectedCard2;
