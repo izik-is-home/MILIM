@@ -46,7 +46,13 @@ function renderWordsList() {
   const statusFilter = document.getElementById('filter-status').value;
   
   const filtered = allWords.filter(word => {
-    const matchesSearch = word.word.toLowerCase().includes(search) || word.meaning.toLowerCase().includes(search);
+    const searchableText = [
+      word.word,
+      word.meaning,
+      word.category,
+      word.example_sentence
+    ].filter(Boolean).join(' ').toLowerCase();
+    const matchesSearch = searchableText.includes(search);
     let matchesStatus = true;
     if (statusFilter === 'active') matchesStatus = word.is_active;
     if (statusFilter === 'inactive') matchesStatus = !word.is_active;
@@ -72,6 +78,9 @@ function renderWordsList() {
     info.appendChild(createElement('div', ['word-meaning'], word.meaning));
     if (word.category) {
       info.appendChild(createElement('div', ['word-meta'], `קטגוריה: ${word.category}`));
+    }
+    if (word.example_sentence) {
+      info.appendChild(createElement('div', ['word-example'], `דוגמה: ${word.example_sentence}`));
     }
     
     const actions = createElement('div', ['word-actions']);
@@ -145,8 +154,8 @@ function setupEventListeners() {
         await createVocabularyItem(data);
       }
       
-      toggleElement('form-success', true);
       resetForm();
+      toggleElement('form-success', true);
       await loadWords();
       
       setTimeout(() => toggleElement('form-success', false), 3000);

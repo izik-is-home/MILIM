@@ -70,8 +70,8 @@
               </label>
             </div>
 
-            <div id="form-error" class="text-danger hidden" style="margin-top: 1rem; font-size: 0.85rem;"></div>
-            <div id="form-success" class="text-success hidden" style="margin-top: 1rem; font-size: 0.85rem;">נשמר בהצלחה</div>
+            <div id="form-error" class="text-danger hidden" role="alert" style="margin-top: 1rem; font-size: 0.85rem;"></div>
+            <div id="form-success" class="text-success hidden" role="status" aria-live="polite" style="margin-top: 1rem; font-size: 0.85rem;">נשמר בהצלחה</div>
 
             <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
               <button type="submit" class="btn btn-primary" id="btn-save-word" style="flex: 1;">שמור</button>
@@ -86,7 +86,7 @@
         <div class="admin-toolbar">
           <div class="search-box">
             <label for="search-input" class="sr-only">חיפוש מילה או פירוש</label>
-            <input type="search" id="search-input" class="form-input" placeholder="חיפוש מילה או פירוש...">
+            <input type="search" id="search-input" class="form-input" placeholder="חיפוש מילה, פירוש, קטגוריה או משפט...">
           </div>
           
           <div style="display: flex; gap: 1rem; align-items: center;">
